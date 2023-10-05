@@ -24,6 +24,7 @@ wget==3.2
 yarl==1.6.3
 youtube-dl==2021.6.6
 filesplit==4.0.1
+pytz==2023.3
 moviepy
 filetype
 tgcrypto
