@@ -37,6 +37,8 @@ TG_MAX_FILE_SIZE = Config.TG_MAX_SIZE
 MEGA_REGEX = "https?:\/\/mega\.nz\/(?:[^\/\s]+\/)+"
 
 # Download Mega Link
+
+
 def DownloadMegaLink(url, alreadylol, download_msg):
     try:
         m.download_url(url, alreadylol, statusdl_msg=download_msg)
@@ -49,7 +51,7 @@ async def megadl(bot, message: Message):
 
     if not await is_subscribed(bot, message):
         return await force_sub(bot, message)
-    
+
     url = message.text
     user_info = f'**User ID:** #id{message.from_user.id} \n**User Name:** [{message.from_user.first_name}](tg://user?id={message.from_user.id})'
     userpath = str(message.from_user.id)
@@ -74,7 +76,7 @@ async def megadl(bot, message: Message):
             )
             return
         else:
-            
+
             logs_msg = await message.forward(Config.LOG_CHANNEL)
             trace_msg = await logs_msg.reply_text(f"#MegaDL: Download Started! \n\n{user_info}")
             download_msg = await message.reply_text(
@@ -92,7 +94,8 @@ async def megadl(bot, message: Message):
             )
             loop = get_running_loop()
             await loop.run_in_executor(None, partial(DownloadMegaLink, url, alreadylol, download_msg))
-            getfiles = [f for f in os.listdir(alreadylol) if isfile(join(alreadylol, f))]
+            getfiles = [f for f in os.listdir(
+                alreadylol) if isfile(join(alreadylol, f))]
             files = getfiles[0]
             magapylol = f"{alreadylol}/{files}"
             await download_msg.edit("**Downloaded Successfully 😉!**")
@@ -102,17 +105,17 @@ async def megadl(bot, message: Message):
             await download_msg.edit("**Please Try Again After 30 Seconds 🤒!**")
             await trace_msg.edit(
                 f"#MegaDL: Download Canceled! \nReason: `{e}` \n\n{user_info}"
-                )
+            )
             os.system(f"kill -9 {os.getpid()} && python3 main.py")
         else:
             await download_msg.edit(f"**Error:** `{e}`")
             await trace_msg.edit(
                 f"#MegaDL: Download Failed! \nReason: `{e}` \n\n{user_info}"
-                )
+            )
         shutil.rmtree(basedir + '/' + userpath)
         return
     lmaocheckdis = os.stat(alreadylol).st_size
-    readablefilesize = size(lmaocheckdis) # Convert Bytes into readable size
+    readablefilesize = size(lmaocheckdis)  # Convert Bytes into readable size
     if lmaocheckdis > TG_MAX_FILE_SIZE:
         await download_msg.edit(f"**Detected File Size:** `{readablefilesize}` \n**Accepted File Size:** `2.0 GB` \n\nOops! File Is Too Large To Send In Telegram 🤒!")
         await trace_msg.edit(f"#MegaDL: Upload Failed! \nReason: `File is Larger Than 2GB.` \n\n{user_info}")
@@ -121,20 +124,19 @@ async def megadl(bot, message: Message):
     else:
         try:
             start_time = time.time()
-            guessedfilemime = filetype.guess(magapylol) # Detecting file type
+            guessedfilemime = filetype.guess(magapylol)  # Detecting file type
 
-            if guessedfilemime is None or not guessedfilemime.mime:
-                await download_msg.edit("**Trying To Upload ...** \n**Can't Get File Type, Sending as Document!")
-                safone = await message.reply_document(magapylol, progress=progress_for_pyrogram, progress_args=("**Uploading ...** \n", download_msg, start_time), reply_to_message_id=message.id)
-                await safone.reply_text(
-                    "**Cont. @Snowball_Official! \nThanks For Using Me 😘!**",
-                    
-                    reply_to_message_id=message.id,
-                )
-                await download_msg.delete()
-                await trace_msg.edit(f"#MegaDL: Upload Done! \n\n{user_info}")
-                shutil.rmtree(basedir + "/" + userpath)
-                return
+            await download_msg.edit("**Trying To Upload ...**")
+            safone = await message.reply_document(magapylol, progress=progress_for_pyrogram, progress_args=("**Uploading ...** \n", download_msg, start_time), reply_to_message_id=message.id)
+            await safone.reply_text(
+                "**Cont. @Snowball_Official! \nThanks For Using Me 😘!**",
+
+                reply_to_message_id=message.id,
+            )
+            await download_msg.delete()
+            await trace_msg.edit(f"#MegaDL: Upload Done! \n\n{user_info}")
+            shutil.rmtree(basedir + "/" + userpath)
+            return
         except Exception as e:
             print(e)
         # Checking file type
@@ -148,7 +150,8 @@ async def megadl(bot, message: Message):
             viddura = moviepy.editor.VideoFileClip(f"{magapylol}")
             vidduration = int(viddura.duration)
             thumbnail_path = f"{alreadylol}/thumbnail.jpg"
-            subprocess.call(['ffmpeg', '-i', magapylol, '-ss', '00:00:10.000', '-vframes', '1', thumbnail_path])
+            subprocess.call(['ffmpeg', '-i', magapylol, '-ss',
+                            '00:00:10.000', '-vframes', '1', thumbnail_path])
             safone = await message.reply_video(magapylol, duration=vidduration, thumb=thumbnail_path, progress=progress_for_pyrogram, progress_args=("**Uploading ...** \n", download_msg, start_time), reply_to_message_id=message.id)
         elif "audio" in filemimespotted:
             safone = await message.reply_audio(magapylol, progress=progress_for_pyrogram, progress_args=("**Uploading ...** \n", download_msg, start_time), reply_to_message_id=message.id)
@@ -156,7 +159,7 @@ async def megadl(bot, message: Message):
             safone = await message.reply_document(magapylol, progress=progress_for_pyrogram, progress_args=("**Uploading ...** \n", download_msg, start_time), reply_to_message_id=message.id)
         await safone.reply_text(
             "**Cont. @SnowBall_Official! \nThanks For Using Me 😘!**",
-            
+
             reply_to_message_id=safone.id,
         )
         await download_msg.delete()
@@ -168,6 +171,7 @@ async def megadl(bot, message: Message):
         print(e)
         return
 
+
 @Client.on_message(filters.command("cancel") & filters.private)
 async def cancel_dl(bot, message):
     userpath = str(message.from_user.id)
@@ -177,18 +181,3 @@ async def cancel_dl(bot, message):
     except Exception as e:
         await print(e)
         await message.reply_text("❌ **No Active Download Process To Cancel!**", reply_to_message_id=message.id)
-
-@Client.on_message(filters.command('cd') & filters.private)
-async def clear_del(bot:Client, cmd:Message):
-
-    ms = await cmd.reply_text("Please Wait...")
-    try:
-        for files in os.listdir(f"DOWNLOADS/{cmd.from_user.id}"):
-            os.remove(files)
-        os.rmdir(f"DOWNLOADS/{cmd.from_user.id}")
-        ms.edit("Successfully Cleared ✅")
-    except Exception as e:
-        ms.edit(f"Something Went Wrong ❗\n\n `Error - {e}")
-
-    await asyncio.sleep(5)
-    await ms.delete()
