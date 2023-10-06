@@ -38,7 +38,6 @@ MEGA_REGEX = "https?:\/\/mega\.nz\/(?:[^\/\s]+\/)+"
 
 # Download Mega Link
 
-
 def DownloadMegaLink(url, alreadylol, download_msg):
     try:
         m.download_url(url, alreadylol, statusdl_msg=download_msg)
