@@ -4,25 +4,25 @@ id_pattern = re.compile(r'^.\d+$')
 
 class Config(object):
     # pyro client config
-    API_ID    = os.environ.get("API_ID", "")  # ⚠️ Required
-    API_HASH  = os.environ.get("API_HASH", "") # ⚠️ Required
-    BOT_TOKEN = os.environ.get("BOT_TOKEN", "") # ⚠️ Required
-    BOT_USERNAME = os.environ.get("BOT_USERNAME", "") # ⚠️ Required
+    API_ID    = os.environ.get("API_ID", "25830228")  # ⚠️ Required
+    API_HASH  = os.environ.get("API_HASH", "a23a5133bddbdab87df3df06ccf63a89") # ⚠️ Required
+    BOT_TOKEN = os.environ.get("BOT_TOKEN", "@DENGEROUS_IMP_BOT") # ⚠️ Required
+    BOT_USERNAME = os.environ.get("BOT_USERNAME", "6824943579:AAF5GUHPUA5nDZuspI1c24HZr3ywXOMPKI0") # ⚠️ Required
    
     # database config
-    DB_URL  = os.environ.get("DB_URL","")  # ⚠️ Required
+    DB_URL  = os.environ.get("DB_URL","postgresql://xrlkskby:gobwyeqocauwmdrggqom@alpha.mkdb.sh:5432/rjfvbvce")  # ⚠️ Required
  
     # other configs
     DOWNLOAD_LOCATION = "./DOWNLOADS"
     TG_MAX_SIZE = 2040108421
     BOT_UPTIME  = time.time()
-    START_PIC   = os.environ.get("START_PIC", "")
-    ADMIN       = [int(admin) if id_pattern.search(admin) else admin for admin in os.environ.get('ADMIN', '').split()] # ⚠️ Required
+    START_PIC   = os.environ.get("START_PIC", "https://graph.org/file/350c9c541ecf4f2c67070.jpg")
+    ADMIN       = [int(admin) if id_pattern.search(admin) else admin for admin in os.environ.get('ADMIN', ''6722550550).split()] # ⚠️ Required
     FORCE_SUB_TEXT = os.environ.get('FORCE_SUB_TEXT', "**Yᴏᴜ ᴀʀᴇ ɴᴏᴛ ɪɴ ᴏᴜʀ Bᴀᴄᴋ-ᴜᴘ ᴄʜᴀɴɴᴇʟ ɢɪᴠᴇɴ ʙᴇʟᴏᴡ sᴏ ʏᴏᴜ ᴅᴏɴ'ᴛ ɢᴇᴛ ᴛʜᴇ ғɪʟᴇ...\n\nIғ ʏᴏᴜ ᴡᴀɴᴛ ᴛʜᴇ ғɪʟᴇ, ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ '❆ Jᴏɪɴ Oᴜʀ Bᴀᴄᴋ-Uᴘ Cʜᴀɴɴᴇʟ ❆' ʙᴜᴛᴛᴏɴ ʙᴇʟᴏᴡ ᴀɴᴅ ᴊᴏɪɴ ᴏᴜʀ ʙᴀᴄᴋ-ᴜᴘ ᴄʜᴀɴɴᴇʟ, ᴛʜᴇɴ ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ '↻ Tʀʏ Aɢᴀɪɴ' ʙᴜᴛᴛᴏɴ ʙᴇʟᴏᴡ...\n\nTʜᴇɴ ʏᴏᴜ ᴡɪʟʟ ɢᴇᴛ ᴛʜᴇ ғɪʟᴇs...**")
     FORCE_SUB = os.environ.get('FORCE_SUB', '') # ⚠️ Required
     AUTH_CHANNEL = int(FORCE_SUB) if FORCE_SUB and id_pattern.search(
     FORCE_SUB) else None
-    LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", "")) # ⚠️ Required
+    LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", "-1001977784654")) # ⚠️ Required
     FLOOD = int(os.environ.get("FLOOD", '10'))
     BANNED_USERS = set(int(x) for x in os.environ.get("BANNED_USERS", "1234567890").split())
     IS_PUBLIC_BOT = bool(os.environ.get("IS_PUBLIC_BOT", True))
